@@ -1,9 +1,16 @@
 const data = require('./utils.js')
+const { insertRecords } = require('./redisInsert')
 const { insertAllData } = require('./mongodbInsert');
 
 runner = () => {
-    // data.then(data => console.log(data[0]["Item Type"]))
-    data.then(data => insertAllData(data));
+    setup = () => {
+        data.then(data => {
+            insertRecords(data)
+            insertAllData(data)
+        })
+            .then(data => {
+                console.log("success")
+            });
+    }
 }
-
-runner()
+setup()

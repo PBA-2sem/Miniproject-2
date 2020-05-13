@@ -2,6 +2,12 @@
 
 Assignment: [Miniproject-2: NoSQL Databases](https://app.peergrade.io/assignment/8ea20245-6b73-4a9f-b681-884725737eea/attachment)
 
+## How to run with Docker
+
+### Redis
+- Network --> docker network create app-tier --driver bridge
+- Redis Server --> docker run -d --name redis-server -e ALLOW_EMPTY_PASSWORD=yes -p 6379:6379 --network app-tier bitnami/redis:latest
+- Redis CLI --> docker run -it --rm  --network app-tier bitnami/redis:latest redis-cli -h redis-server
 
 ## Tasks 
 
@@ -14,7 +20,14 @@ We chose to use the databases **MongoDB** and **Redis** for this assignment. We 
 ### Databases 
 MongoDB is a document-based database, known for its efficiency and scalability.
 
-Redis is an in-memory database that is fairly simple to setup and has a very fast response time. 
+Redis is an in-memory, key-value-based database that is fairly simple to setup and has a very fast response time. 
+
+### Prior Expected Database behavior
+
+We expect that (simple) queries against the Redis database will be faster the queries against the MongoDB database, because Redis database model is in-memory. Thus, Redis offer speed in simple scenarios (but more complexity when using more complicated queries).
+
+On the other hand, in scenaries with a lot of complex queries, queries using MongoDB might be easier. Thus, MongoDB offer simplicity in more complex scenarios (but less speed).
+
 
 ### Data source
 

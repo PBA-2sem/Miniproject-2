@@ -4,7 +4,8 @@
   "description": "",
   "main": "main.js",
   "dependencies": {
-    "csv-parser": "^2.3.2"
+    "csv-parser": "^2.3.2",
+    "mongodb": "^3.5.7"
   },
   "devDependencies": {},
   "scripts": {

@@ -14,7 +14,14 @@ We chose to use the databases **MongoDB** and **Redis** for this assignment. We 
 ### Databases 
 MongoDB is a document-based database, known for its efficiency and scalability.
 
-Redis is an in-memory database that is fairly simple to setup and has a very fast response time. 
+Redis is an in-memory, key-value-based database that is fairly simple to setup and has a very fast response time. 
+
+### Prior Expected Database behavior
+
+We expect that (simple) queries against the Redis database will be faster the queries against the MongoDB database, because Redis database model is in-memory. Thus, Redis offer speed in simple scenarios (but more complexity when using more complicated queries).
+
+On the other hand, in scenaries with a lot of complex queries, queries using MongoDB might be easier. Thus, MongoDB offer simplicity in more complex scenarios (but less speed).
+
 
 ### Data source
 

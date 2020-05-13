@@ -2,6 +2,12 @@
 
 Assignment: [Miniproject-2: NoSQL Databases](https://app.peergrade.io/assignment/8ea20245-6b73-4a9f-b681-884725737eea/attachment)
 
+## How to run with Docker
+
+### Redis
+- Network --> docker network create app-tier --driver bridge
+- Redis Server --> docker run -d --name redis-server -e ALLOW_EMPTY_PASSWORD=yes -p 6379:6379 --network app-tier bitnami/redis:latest
+- Redis CLI --> docker run -it --rm  --network app-tier bitnami/redis:latest redis-cli -h redis-server
 
 ## Tasks 
 

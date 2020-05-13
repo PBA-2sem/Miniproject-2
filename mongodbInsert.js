@@ -1,33 +1,25 @@
-const { MongoClient } = require('mongodb');
+// const MongoClient = require('mongodb').MongoClient;
 
-const uri = "mongodb://admin:password@localhost:27017";
+const mongo = require("mongodb");
+const uri = "mongodb://localhost:27017";
+const mongoClient = mongo.MongoClient(uri);
 
 
-const client = new MongoClient(uri);
-const connection = undefined;
 
 async function insertAllData(data) {
-    if (!connection) await connectToDB();
-    const db = client.db.records;
-    db.insertMany(
-        data.map(entry => { return { ...entry, _id: entry['Order ID'] } }),
-        { ordered: false }
-    )
+    mongoClient.connect(function (err) {
+        if (err) throw err;
+        var db = mongoClient.db("stuff");
+        var collection = db.collection("records");
+
+        collection.insertMany(data.map(entry => { return { ...entry, _id: entry['Order ID'] } }), function (err, resultDocuments) {
+            if(err) return console.log(err);
+            console.log('done')
+        }); 
+    });
 }
 
-async function connectToDB() {
-    const conn;
-    try {
-        conn = await client.connect();
-        connection = conn;
-    } catch (err) {
-        console.log(err);
-        return false;
-    }
-    return true;
-}
 
 module.exports = {
     insertAllData: insertAllData,
-
 }

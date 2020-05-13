@@ -1,7 +1,11 @@
 const data = require('./utils.js')
+const { insertRecords } = require('./redisInsert')
 
-runner = () => {
-    data.then(data => console.log(data[0]["Item Type"]))
+setup = () => {
+    data.then(data => insertRecords(data))
+    .then(data => {
+        console.log("success")
+    });
 }
 
-runner()
+setup()

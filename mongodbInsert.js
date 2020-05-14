@@ -10,6 +10,8 @@ async function insertAllData(data) {
     mongoClient.connect(async function (err) {
         if (err) throw err;
         const db = mongoClient.db("stuff");
+
+        // drop collection if exists
         await db.collection("records").drop();
         const collection = db.collection("records");
 
@@ -30,14 +32,14 @@ async function getRecordMongo(id) {
     const collection = db.collection("records");
 
     const ITERATIONS = 10000;
-    let promisesList = []; 
+    let promisesList = [];
 
     // Measure time to insert all
     const start = performance.now();
     for (let i = 0; i <= ITERATIONS; i++) {
-        promisesList.push(collection.find({ _id: id }))
+        promisesList.push(collection.find({ _id: id }));
     }
-    await Promise.all(promisesList);
+    await Promise.all(promisesList).catch(err => console.log('ERROR: ', err))
     const end = performance.now();
     console.log(`MongoDB - Time to get single record average : ${(end - start) / ITERATIONS}ms`);
 }

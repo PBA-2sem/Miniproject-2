@@ -8,7 +8,7 @@ setup = () => {
         insertAllData(data)
     })
         .then(data => {
-            console.log("success")
+            console.log("Success")
         });
 }
 setup()

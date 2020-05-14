@@ -1,14 +1,14 @@
 const data = require('./utils.js')
-const { insertRecords } = require('./redisInsert')
-const { insertAllData } = require('./mongodbInsert');
+const { insertRecords, getRecordRedis } = require('./redisInsert')
+const { insertAllData, getRecordMongo } = require('./mongodbInsert');
 
-setup = () => {
-    data.then(data => {
-        insertRecords(data)
-        insertAllData(data)
+setup = async () => {
+    await data.then(async data => {
+        await insertRecords(data)
+        await insertAllData(data)
     })
-        .then(data => {
-            console.log("Success")
-        });
+    getRecordRedis('900464189');
+    getRecordMongo('900464189');
+
 }
 setup()

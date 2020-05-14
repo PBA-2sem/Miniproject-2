@@ -1,5 +1,3 @@
-// const MongoClient = require('mongodb').MongoClient;
-
 const mongo = require("mongodb");
 const uri = "mongodb://localhost:27017";
 const mongoClient = mongo.MongoClient(uri, { useUnifiedTopology: true });
@@ -17,18 +15,36 @@ async function insertAllData(data) {
 
         // Measure time to insert all
         const start = performance.now();
-        collection.insertMany(data.map(entry => { return { ...entry, _id: entry['Order ID'] } }), function (err, resultDocuments) {
+        await collection.insertMany(data.map(entry => { return { ...entry, _id: entry['Order ID'] } }), function (err, resultDocuments) {
             if (err) return console.log(err);
-            console.log('Done inserting data into mongoDB')
         });
+        console.log('MongoDB - Done inserting data')
         const end = performance.now();
-        console.log(`Time to store all docs in mongo : ${end - start}ms`);
+        console.log(`MongoDB - Time to store all docs : ${end - start}ms`);
     });
 }
 
 
+async function getRecordMongo(id) {
+    const db = mongoClient.db("stuff");
+    const collection = db.collection("records");
+
+    const ITERATIONS = 10000;
+    let promisesList = []; 
+
+    // Measure time to insert all
+    const start = performance.now();
+    for (let i = 0; i <= ITERATIONS; i++) {
+        promisesList.push(collection.find({ _id: id }))
+    }
+    await Promise.all(promisesList);
+    const end = performance.now();
+    console.log(`MongoDB - Time to get single record average : ${(end - start) / ITERATIONS}ms`);
+}
+
 
 
 module.exports = {
-    insertAllData: insertAllData,
+    insertAllData,
+    getRecordMongo,
 }

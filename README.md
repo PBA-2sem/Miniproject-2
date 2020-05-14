@@ -46,7 +46,7 @@ Sub-Saharan Africa,Chad,Office Supplies,Online,L,1/27/2011,292494523,2/12/2011,4
 
 ### Database operations, to be used for comparison
 
-x
+- We chose to go with insertion operations and retrieval operations with the thought that this is useful to test in regards to Big Data. With Big Data you have huge amounts of data and the same goes for our situation where we have 500.000 sales records in a CSV file. We thought it made sense to test insertion and retrieval times since this can vary a lot using different databases. 
 
 ### Selected comparison criteria
 

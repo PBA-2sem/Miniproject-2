@@ -1,14 +1,19 @@
-var csv = require("csv-parser");
-var fs = require("fs");
+const csv = require("csv-parser");
+const fs = require("fs");
 
-var uploadFiles = new Promise(function (resolve, reject) {
-  var results = [];
-  fs.createReadStream("records.csv")
-    .pipe(csv())
-    .on("data", (data) => results.push(data))
-    .on("end", () => {
-      resolve(results);
-    });
-});
+function getData() {
+  return new Promise(function (resolve, reject) {
+    let results = [];
+    fs.createReadStream("records.csv")
+      .pipe(csv())
+      .on("data", (data) => results.push(data))
+      .on("end", () => {
+        resolve(results);
+      });
+  });
+}
 
-module.exports = uploadFiles;
+
+module.exports = {
+  getData,
+}

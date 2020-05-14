@@ -1,14 +1,26 @@
-const data = require('./utils.js')
-const { insertRecords, getRecordRedis } = require('./redisInsert')
-const { insertAllData, getRecordMongo } = require('./mongodbInsert');
+const { getData } = require('./utils.js')
 
-setup = async () => {
-    await data.then(async data => {
-        await insertRecords(data)
-        await insertAllData(data)
-    })
-    getRecordRedis('900464189');
-    getRecordMongo('900464189');
+const { insertRecordsRedis, getRecordRedis } = require('./redisInsert')
+const { insertRecordsMongo, getRecordMongo } = require('./mongodbInsert');
+
+const ITERATIONS = 10000;
+
+runMongo = async (data) => {
+    await insertRecordsMongo(data)
+    await getRecordMongo('900464189', ITERATIONS);
+}
+
+runRedis = async (data) => {
+    await insertRecordsRedis(data);
+    await getRecordRedis('900464189');
+}
+
+async function main() {
+    const data = await getData('records');
+
+    await runMongo(data);
+
+    await runRedis(data);
 
 }
-setup()
+main();

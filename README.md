@@ -4,10 +4,19 @@ Assignment: [Miniproject-2: NoSQL Databases](https://app.peergrade.io/assignment
 
 ## How to run with Docker
 
-### Redis
+### Redis  
+
+code block the below [TODO]
+
 - Network --> docker network create app-tier --driver bridge
 - Redis Server --> docker run -d --name redis-server -e ALLOW_EMPTY_PASSWORD=yes -p 6379:6379 --network app-tier bitnami/redis:latest
 - Redis CLI --> docker run -it --rm  --network app-tier bitnami/redis:latest redis-cli -h redis-server
+
+### MongoDB
+
+```
+docker run -p 27017:27017 -e MONGO_INITDB_DATABASE=stuff --name mongodb -d mongo
+```
 
 ## Tasks 
 
@@ -15,7 +24,7 @@ Assignment: [Miniproject-2: NoSQL Databases](https://app.peergrade.io/assignment
 
 The assignment task is to select two NoSQL databases, and use a large data source as test data, to assess their features and performance.
 
-We chose to use the databases **MongoDB** and **Redis** for this assignment. We figured these two databases were different enough to give potential different results when comparing them in the task at hand.  
+We chose to use the databases **MongoDB** and **Redis** for this assignment. We figured these twO databases were different enough to give potential different results when comparing them in the task at hand.  
 
 ### Databases 
 MongoDB is a document-based database, known for its efficiency and scalability.
@@ -44,21 +53,41 @@ The data source used as data for both databases, is a datased from [http://efore
 Sub-Saharan Africa,Chad,Office Supplies,Online,L,1/27/2011,292494523,2/12/2011,4484,651.21,524.96,2920025.64,2353920.64,566105.00
 ```
 
-### Database operations, to be used for comparison
+### Database operations, to be used for comparison & comparison criteria
 
-- We chose to go with insertion operations and retrieval operations with the thought that this is useful to test in regards to Big Data. With Big Data you have huge amounts of data and the same goes for our situation where we have 500.000 sales records in a CSV file. We thought it made sense to test insertion and retrieval times since this can vary a lot using different databases. 
+We chose to test **insertion**  and **retrieval** operations, with the thought that this is useful to test in regards to Big Data. With Big Data you have huge amounts of data and the same goes for our situation where we have 500.000 sales records in a CSV file. 
 
-### Selected comparison criteria
+We also thought it made sense to test insertion and retrieval **time** since this can vary a lot using different databases. 
 
-x
+#### MongoDB
+
+![mongo time](/images/mongo_time.PNG)
+
+#### Redis
+
+![redis time](/images/redis_time.PNG)
+
+Furthermore, we chose to compare the **memory** & **storage** usage of each database, after data insertion. 
+
+(MongoDB stores the data on the harddrive, and redis in-memory.)
+
+#### MongoDB
+
+![mongo size](/images/mongo_size.PNG)
+
+#### Redis
+
+![redis size](/images/redis_size.PNG)
+
+
 
 ### Demo code for testing
 
-x
+- code snippets from files goes here with explanations of logic [TODO]
 
 ### Results and conclusions
 
-x
+- evaluate results, factors etc. [TODO]
 
 ## Author Details
 

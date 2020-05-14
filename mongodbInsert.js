@@ -9,13 +9,13 @@ const mongoClient = mongo.MongoClient(uri);
 async function insertAllData(data) {
     mongoClient.connect(function (err) {
         if (err) throw err;
-        var db = mongoClient.db("stuff");
-        var collection = db.collection("records");
+        const db = mongoClient.db("stuff");
+        const collection = db.collection("records");
 
         collection.insertMany(data.map(entry => { return { ...entry, _id: entry['Order ID'] } }), function (err, resultDocuments) {
-            if(err) return console.log(err);
+            if (err) return console.log(err);
             console.log('done')
-        }); 
+        });
     });
 }
 

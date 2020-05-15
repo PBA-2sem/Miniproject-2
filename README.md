@@ -62,6 +62,19 @@ x
 
 ## Author Details
 
+
+### CAP and ACID
+#### Redis
+There is a lot of discussions about what wether the CAP is applicaple to redis. And the catagory floats around quite a bit. However, redis runs with a Master/Slave architecture. This means that, when the master fails, it quietly promotes a salve to be the a new master, but still functions as a single client system. This makes the redis solution highly available (A), as a master can fail for muliple reasons. (e.g lack of memory). If this happen the data will still be available. Redis is highly consistent because it more often than not, runs a single client set up. This means that the Data will always be concistent when you query for a result. For these reasons the redis falls under the CA catagory, and here the book seems to agree. 
+
+When it comes to Reids in the sence of ACID, the ACID principel is not suppoed to be implemented. Since Redis is not a transcational daatbase. 
+
+
+#### MongoDB
+
+
+
+
 **Group: Team Wing It**
 - *Alexander Winther Hørsted-Andersen* (cph-ah353@cphbusiness.dk)
 - *Andreas Due Jørgensen* (cph-aj285@cphbusiness.dk)

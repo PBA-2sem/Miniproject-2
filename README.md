@@ -4,10 +4,14 @@ Assignment: [Miniproject-2: NoSQL Databases](https://app.peergrade.io/assignment
 
 ## How to run with Docker
 
-### Redis
+### Redis setup
 - Network --> docker network create app-tier --driver bridge
 - Redis Server --> docker run -d --name redis-server -e ALLOW_EMPTY_PASSWORD=yes -p 6379:6379 --network app-tier bitnami/redis:latest
 - Redis CLI --> docker run -it --rm  --network app-tier bitnami/redis:latest redis-cli -h redis-server
+
+### Mongo setup
+
+- MongoDB server --> docker run --name some-mongo -p 27017:27017 -d mongo:tag
 
 ## Tasks 
 
@@ -28,11 +32,9 @@ We expect that (simple) queries against the Redis database will be faster the qu
 
 On the other hand, in scenaries with a lot of complex queries, queries using MongoDB might be easier. Thus, MongoDB offer simplicity in more complex scenarios (but less speed).
 
-
 ### Data source
 
-The data source used as data for both databases, is a datased from [http://eforexcel.com/](http://eforexcel.com/wp/downloads-18-sample-csv-files-data-sets-for-testing-sales/). The dataset consists of 10000 Random Sales Records, to be used for Testing. The data format is a .csv file ([records.csv](records.csv))
-
+The data source used as data for both databases, is a datased from [http://eforexcel.com/](http://eforexcel.com/wp/downloads-18-sample-csv-files-data-sets-for-testing-sales/). The dataset consists of 500k Random Sales Records, to be used for Testing. The data format is a .csv file ([records.csv](records.csv))
 
 *Overview of the fields which appear as part of the csv file ([source](http://eforexcel.com/wp/downloads-18-sample-csv-files-data-sets-for-testing-sales/)):*
 
@@ -60,20 +62,17 @@ x
 
 x
 
-## Author Details
-
-
 ### CAP and ACID
 #### Redis
-There is a lot of discussions about what wether the CAP is applicaple to redis. And the catagory floats around quite a bit. However, redis runs with a Master/Slave architecture. This means that, when the master fails, it quietly promotes a salve to be the a new master, but still functions as a single client system. This makes the redis solution highly available (A), as a master can fail for muliple reasons. (e.g lack of memory). If this happen the data will still be available. Redis is highly consistent because it more often than not, runs a single client set up. This means that the Data will always be concistent when you query for a result. For these reasons the redis falls under the CA catagory, and here the book seems to agree. 
+There is a lot of discussions about what whether the CAP is applicaple to redis. And the catagory floats around quite a bit. However, redis runs with a Master/Slave architecture. This means that, when the master fails, it quietly promotes a slave to be the a new master, but still functions as a single client system. This makes the redis solution highly available (A), as a master can fail for muliple reasons. (e.g lack of memory). If this happen the data will still be available. Redis is highly consistent because it more often than not, runs a single client set up. This means that the Data will always be concistent when you query for a result. For these reasons the redis falls under the CA catagory, and here the book seems to agree. 
 
-When it comes to Reids in the sence of ACID, the ACID principel is not suppoed to be implemented. Since Redis is not a transcational daatbase. 
+When it comes to Reids in the sence of ACID, the ACID principel is not suppoed to be implemented. Since Redis is not a transactional daatbase. 
 
 
 #### MongoDB
 
 
-
+## Author Details
 
 **Group: Team Wing It**
 - *Alexander Winther Hørsted-Andersen* (cph-ah353@cphbusiness.dk)

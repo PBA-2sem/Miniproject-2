@@ -6,15 +6,20 @@ Assignment: [Miniproject-2: NoSQL Databases](https://app.peergrade.io/assignment
 
 ### Redis  
 
-code block the below [TODO]
+```docker
+# Network
+docker network create app-tier --driver bridge
 
-- Network --> docker network create app-tier --driver bridge
-- Redis Server --> docker run -d --name redis-server -e ALLOW_EMPTY_PASSWORD=yes -p 6379:6379 --network app-tier bitnami/redis:latest
-- Redis CLI --> docker run -it --rm  --network app-tier bitnami/redis:latest redis-cli -h redis-server
+# Redis Server
+docker run -d --name redis-server -e ALLOW_EMPTY_PASSWORD=yes -p 6379:6379 --network app-tier bitnami/redis:latest
+
+# redis CLI
+docker run -it --rm  --network app-tier bitnami/redis:latest redis-cli -h redis-server
+```
 
 ### MongoDB
 
-```
+```docker
 docker run -p 27017:27017 -e MONGO_INITDB_DATABASE=stuff --name mongodb -d mongo
 ```
 
@@ -27,20 +32,22 @@ The assignment task is to select two NoSQL databases, and use a large data sourc
 We chose to use the databases **MongoDB** and **Redis** for this assignment. We figured these twO databases were different enough to give potential different results when comparing them in the task at hand.  
 
 ### Databases 
-MongoDB is a document-based database, known for its efficiency and scalability.
+**MongoDB** is a document-based database, known for its efficiency and scalability.
 
-Redis is an in-memory, key-value-based database that is fairly simple to setup and has a very fast response time. 
+**Redis** is an in-memory, key-value-based database that is fairly simple to setup and has a very fast response time. 
 
 ### Prior Expected Database behavior
 
-We expect that (simple) queries against the Redis database will be faster the queries against the MongoDB database, because Redis database model is in-memory. Thus, Redis offer speed in simple scenarios (but more complexity when using more complicated queries).
+#### Insertion
+We expect that the time for inserting data into the databases, will be longer for mongoDB than for Redis, because inserting data "in-memory" should be faster than storing data on disk.
 
-On the other hand, in scenaries with a lot of complex queries, queries using MongoDB might be easier. Thus, MongoDB offer simplicity in more complex scenarios (but less speed).
+#### Retrieval
+We expect that (simple) queries against the Redis database will be faster than the queries against the MongoDB database, because Redis database model is in-memory. Thus, Redis offer speed in simple scenarios.
 
 
-### Data source
+### Data Source
 
-The data source used as data for both databases, is a datased from [http://eforexcel.com/](http://eforexcel.com/wp/downloads-18-sample-csv-files-data-sets-for-testing-sales/). The dataset consists of 10000 Random Sales Records, to be used for Testing. The data format is a .csv file ([records.csv](records.csv))
+The data source used as data for both databases, is a datased from [http://eforexcel.com/](http://eforexcel.com/wp/downloads-18-sample-csv-files-data-sets-for-testing-sales/). The dataset consists of 500k Random Sales Records, to be used for Testing. The data format is a .csv file ([records.csv](records.csv))
 
 
 *Overview of the fields which appear as part of the csv file ([source](http://eforexcel.com/wp/downloads-18-sample-csv-files-data-sets-for-testing-sales/)):*
@@ -59,19 +66,12 @@ We chose to test **insertion**  and **retrieval** operations, with the thought t
 
 We also thought it made sense to test insertion and retrieval **time** since this can vary a lot using different databases. 
 
-#### MongoDB
-
-![mongo time](/images/mongo_time.PNG)
-
-#### Redis
-
-![redis time](/images/redis_time.PNG)
-
 Furthermore, we chose to compare the **memory** & **storage** usage of each database, after data insertion. 
 
-(MongoDB stores the data on the harddrive, and redis in-memory.)
+Using MongoDB Compass (A mongodb GUI), we can see that MongoDB stores the data on the harddrive, and Redis stores the data in memory:
 
 #### MongoDB
+
 
 ![mongo size](/images/mongo_size.PNG)
 
@@ -79,15 +79,64 @@ Furthermore, we chose to compare the **memory** & **storage** usage of each data
 
 ![redis size](/images/redis_size.PNG)
 
-
-
 ### Demo code for testing
 
-- code snippets from files goes here with explanations of logic [TODO]
+#### MongoDB
+We execute ```node mainMongoDB.js``` to run the code for testing our redis database. The code can be viewed [here](mainMongoDB.js)
+
+#### Redis
+We execute ```node mainRedis.js``` to run the code for testing our redis database. The code can be viewed [here](mainRedis.js)
+
+In each scenario, the .csv data is loaded and inserted into each database, and the time for insertion is meassured. Afterwards, we retrieve a known stored entity 10k times, to meassure the average retrieval time. 
+
+
+[TODO?]
+### CAP and ACID
+
+CAP MODEL HERE?
+
+ACID MODEL HERE?
+
+#### Redis
+There is a lot of discussions about what whether the CAP is applicaple to redis. And the catagory floats around quite a bit. However, redis runs with a Master/Slave architecture. This means that, when the master fails, it quietly promotes a slave to be the a new master, but still functions as a single client system. This makes the redis solution highly available (A), as a master can fail for muliple reasons. (e.g lack of memory). If this happen the data will still be available. Redis is highly consistent because it more often than not, runs a single client set up. This means that the Data will always be concistent when you query for a result. For these reasons the redis falls under the CA catagory, and here the book seems to agree.
+
+When it comes to Reids in the sence of ACID, the ACID principel is not suppoed to be implemented. Since Redis is not a transactional daatbase.
+
+[TODO]
+#### MongoDB
+
+-? CAP
+
+-? ACID
 
 ### Results and conclusions
 
-- evaluate results, factors etc. [TODO]
+The results below are generated on a random developer pc. Thus, local hardware & software influences the execution time, but the point is that there is a vast difference between the insertion and retrieval time between mongoDB and Redis, which highly favors Redis (in these specifc scenarios):
+
+#### MongoDB
+
+```cmd
+$ node mainMongoDB.js
+Loading Data...
+Inserting Data...
+Inside insert function..
+after connection function..
+Retrieving data...
+MongoDB - Time to store all docs : 14790.100300997496ms
+MongoDB - Time to get single record average : 1.2917432250100374ms
+```
+
+#### Redis
+
+```cmd
+$ node mainRedis.js
+Loading Data...
+Inserting Data...
+Retrieving data...
+Redis - Time to store all docs in : 2081.9921000003815ms
+Redis - Time to get single record average : 0.12627312000006438ms
+```
+
 
 ## Author Details
 

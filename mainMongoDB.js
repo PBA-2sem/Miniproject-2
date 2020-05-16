@@ -1,7 +1,7 @@
 const { getData } = require('./utils.js')
 const { insertRecordsMongo, getRecordMongo } = require('./mongodbInsert');
 
-const ITERATIONS = 10000;
+const ITERATIONS = 100000;
 
 async function runMongo() {
     console.log("Loading Data...")
@@ -11,7 +11,7 @@ async function runMongo() {
     console.log("Retrieving data...")
     const timeGet = await getRecordMongo('291581714', ITERATIONS);
     console.log(`MongoDB - Time to store all docs : ${timeInsert}ms`);
-    console.log(`MongoDB - Time to get single record average : ${timeGet}ms`)
+    console.log(`MongoDB - Time to get single record average : ${timeGet/ITERATIONS}ms`)
     process.exit(1)
 }
 

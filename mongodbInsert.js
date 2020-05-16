@@ -18,7 +18,7 @@ insertRecordsMongo = async (data) => {
         dbC.collection("records").drop();
         collection = dbC.collection("records")
     } catch (err) {
-        console.err(err)
+        console.log(err)
     }
 
     const start = performance.now();
@@ -48,12 +48,10 @@ getRecordMongo = async (id, ITERATIONS) => {
 
     // Measure time to insert all
     const start = performance.now();
-    console.log('JEEEEFFF');
     for (let i = 0; i <= ITERATIONS; i++) {
-        await collection.find({ _id: id });
+        await collection.findOne({ _id: id });
     }
     // await Promise.all(promisesList);
-    console.log('JEEEEFFF IS DONE!!!');
     const end = performance.now();
     time = end - start;
     return time

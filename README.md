@@ -112,7 +112,7 @@ Consistent: no reader will see a "partially applied" update
 Isolated: again, no reader will see a "dirty" read
 Durable: (with the appropriate write concern)
 
-### Results and conclusions
+## Results
 
 ### Storage
 
@@ -158,12 +158,11 @@ Redis - Time to store all docs in : 2081.9921000003815ms
 Redis - Time to get single record average : 0.12627312000006438ms
 ```
 
+## Conclusion
+
 The results are generated on a random developer pc. Thus, local hardware & software influences the execution time.
  
 Even so, we can see  that there is a vast difference between the insertion and retrieval time between mongoDB and Redis, which highly favors Redis (in these specific scenarios).
-
-
-
 
 ## Author Details
 

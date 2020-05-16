@@ -1,8 +1,8 @@
 const csv = require("csv-parser");
 const fs = require("fs");
 
-function getData() {
-  return new Promise(function (resolve, reject) {
+async function getData() {
+  return await new Promise(function (resolve, reject) {
     let results = [];
     fs.createReadStream("records.csv")
       .pipe(csv())

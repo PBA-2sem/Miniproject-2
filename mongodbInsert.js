@@ -4,34 +4,31 @@ const dbName = 'stuff';
 
 const { performance } = require('perf_hooks')
 
-
-
 insertRecordsMongo = async (data) => {
 
     var time = null;
-
+    console.log("Inside insert function..")
     const db = MongoClient(uri, { useUnifiedTopology: true });
+    console.log("after connection function..")
 
-    await db.connect().then((client) => {
+    const dbConnect = await db.connect();
+    const dbC = dbConnect.db(dbName);
+    var collection;
+    try {
+        dbC.collection("records").drop();
+        collection = dbC.collection("records")
+    } catch (err) {
+        console.err(err)
+    }
 
-        var db = client.db(dbName);
+    const start = performance.now();
 
-        // drop collection if exists
-        db.collection("records").drop();
-        const collection = db.collection("records");
+    const results = await collection.insertMany(data.map(entry => { return { ...entry, _id: entry['Order ID'] } }))
 
-        // Measure time to insert all
-        const start = performance.now();
- 
-        collection.insertMany(data.map(entry => { return { ...entry, _id: entry['Order ID'] } }), function (err, resultDocuments) {
-            if (err) return console.log(err);
-        });
-        const end = performance.now();
-        time = end - start;
-    })
-    return time;
+    const end = performance.now();
+    time = end - start;
+    return time
 }
-
 
 getRecordMongo = async (id) => {
 
@@ -39,28 +36,28 @@ getRecordMongo = async (id) => {
 
     const db = MongoClient(uri, { useUnifiedTopology: true });
 
-    await db.connect().then((client) => {
+    const dbConnect = await db.connect();
+    const dbC = dbConnect.db(dbName);
 
-        var db = client.db(dbName);
+    var collection;
+    try {
+        collection = dbC.collection("records")
+    } catch (err) {
+        console.err(err)
+    }
+    const ITERATIONS = 10000;
+    let promisesList = [];
 
-        const collection = db.collection("records");
-
-        const ITERATIONS = 10000;
-        let promisesList = [];
-
-        // Measure time to insert all
-        const start = performance.now();
-        for (let i = 0; i <= ITERATIONS; i++) {
-            promisesList.push(collection.find({ _id: id }));
-        }
-        Promise.all(promisesList).catch(err => console.log('ERROR: ', err))
-        const end = performance.now();
-        time = end - start;
-    })
-    return time;
+    // Measure time to insert all
+    const start = performance.now();
+    for (let i = 0; i <= ITERATIONS; i++) {
+        promisesList.push(collection.find({ _id: id }));
+    }
+    await Promise.all(promisesList);
+    const end = performance.now();
+    time = end - start;
+    return time
 }
-
-
 
 module.exports = {
     insertRecordsMongo,

@@ -30,7 +30,7 @@ insertRecordsMongo = async (data) => {
     return time
 }
 
-getRecordMongo = async (id) => {
+getRecordMongo = async (id, ITERATIONS) => {
 
     var time = null;
 
@@ -45,15 +45,15 @@ getRecordMongo = async (id) => {
     } catch (err) {
         console.err(err)
     }
-    const ITERATIONS = 10000;
-    let promisesList = [];
 
     // Measure time to insert all
     const start = performance.now();
+    console.log('JEEEEFFF');
     for (let i = 0; i <= ITERATIONS; i++) {
-        promisesList.push(collection.find({ _id: id }));
+        await collection.find({ _id: id });
     }
-    await Promise.all(promisesList);
+    // await Promise.all(promisesList);
+    console.log('JEEEEFFF IS DONE!!!');
     const end = performance.now();
     time = end - start;
     return time

@@ -11,7 +11,7 @@ insertRecordsRedis = async (data) => {
     // Measure time to insert all
     const start = performance.now();
 
-    const re = await client.multi(requestsList)
+    const re = await client.batch(requestsList)
     await re.exec();
 
     const end = performance.now();
@@ -19,13 +19,10 @@ insertRecordsRedis = async (data) => {
 }
 
 getRecordRedis = async (id, ITERATIONS) => {
-    // Handle as promise.all() so we can await all of them as a single unit for performance
-    let promiseList = [];
     const start = performance.now();
     for (let i = 0; i <= ITERATIONS; i++) {
-        promiseList.push(client.get(id));
+        await client.get(id);
     }
-    await Promise.all(promiseList)
     const end = performance.now();
     return end - start;
 }

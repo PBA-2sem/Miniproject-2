@@ -126,7 +126,7 @@ Using MongoDB Compass (A mongodb GUI), we can see that MongoDB stores the data o
 
 ![mongo size](/images/mongo_size.PNG)
 
-MongoDB compresses data by default using something called Snappy.
+MongoDB compresses data by default using something called Snappy - [snappy](http://google.github.io/snappy/)
 
 #### Redis
 

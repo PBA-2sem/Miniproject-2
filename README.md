@@ -126,11 +126,17 @@ Using MongoDB Compass (A mongodb GUI), we can see that MongoDB stores the data o
 
 ![mongo size](/images/mongo_size.PNG)
 
+MongoDB compresses data by default using something called Snappy.
+
 #### Redis
 
 From Redis terminal, we can see that Redis stores the data in memory:
 
 ![redis size](/images/redis_size.PNG)
+
+Redis doesn't use any kind of compression of data by default.
+
+This is why the data capacity differs for each DB even though it's the same data.
 
 ### Time
 
